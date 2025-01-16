@@ -23,6 +23,7 @@ public class ItemController {
     }
 
     @PostMapping
+    @ResponseBody
     public void createItem(@RequestBody ItemDto itemDto){
         System.out.println(itemDto.getItem());
         itemMapper.insertItem(itemDto);
