@@ -10,28 +10,26 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/items")
 public class ItemController {
-
     @Autowired
     private ItemMapper itemMapper;
 
     @Autowired
     private ItemService itemService;
-
     @GetMapping("/create")
-    public String create(){
-        return "shop/create-Item";
+    public String create() {
+        return "shop/create-item";
     }
 
     @PostMapping
     @ResponseBody
-    public void createItem(@RequestBody ItemDto itemDto){
+    public void createItem(@RequestBody ItemDto itemDto) {
         System.out.println(itemDto.getItem());
         itemMapper.insertItem(itemDto);
     }
 
     @GetMapping("/{id}")
     @ResponseBody
-    public ItemDto getItem(@PathVariable("id)") int id){
+    public ItemDto getItem(@PathVariable("id") int id) {
         return itemService.getItem(id);
     }
 }

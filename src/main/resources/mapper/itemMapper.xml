@@ -7,6 +7,6 @@
     </insert>
 
     <select id="getItemById" resultType="com.fruit.pms.dto.ItemDto">
-        select id, name AS items where id=#{id};
+        SELECT id, name AS item FROM items WHERE id = #{id};
     </select>
 </mapper>
