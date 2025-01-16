@@ -2,7 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.fruit.pms.mapper.ItemMapper">
-    <insert id="insertItem" parameterType="com.fruit.pms.dto.itemDto">
-    insert into items (name) values (${item});
+    <insert id="insertItem" parameterType="com.fruit.pms.dto.ItemDto">
+    insert into items (name) values (#{item});
     </insert>
+
+    <select id="getItemById" resultType="com.fruit.pms.dto.ItemDto">
+        select id, name AS items where id=#{id};
+    </select>
 </mapper>
