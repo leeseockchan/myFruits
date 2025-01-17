@@ -14,7 +14,6 @@ public class ItemService {
     @Autowired
     private ItemMapper itemMapper;
 
-
     public void createItem(ItemDto itemDto) {
         itemMapper.insertItem(itemDto);
     }
@@ -32,6 +31,7 @@ public class ItemService {
     public List<ItemDto> getItems() {
         return itemMapper.getItems();
     }
+
 
     public void modify(ItemDto itemDto){
         itemMapper.updateItem(itemDto);

@@ -1,7 +1,6 @@
 package com.fruit.pms.controller;
 
 import com.fruit.pms.dto.ItemDto;
-import com.fruit.pms.mapper.ItemMapper;
 import com.fruit.pms.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,7 +33,7 @@ public class ItemController {
         try {
             ItemDto itemDto = itemService.getItem(id);
             model.addAttribute("item", itemDto);
-        } catch (IllegalStateException e){
+        } catch (IllegalStateException e) {
             model.addAttribute("message", e.getMessage());
             return "common/error/404";
         }
