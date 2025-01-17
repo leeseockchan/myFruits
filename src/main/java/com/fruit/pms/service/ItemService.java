@@ -40,6 +40,7 @@ public class ItemService {
     public void remove(int id) {
         itemMapper.deleteItem(id);
     }
+
     // 함수
     // 접근제어자 리턴 타입 메소드이름(){}
 

@@ -9,7 +9,7 @@ import java.util.Optional;
 @Mapper
 public interface ItemMapper {
 
-    int insertItem(ItemDto itemDto);// pk가 생성, 전달된 객체와 참조를 가지고 있어 정보 추가
+    //int insertI/tem(ItemDto itemDto);// pk가 생성, 전달된 객체와 참조를 가지고 있어 정보 추가
     void insertItem(ItemDto itemDto);
     Optional<ItemDto> getItemById(int id); // pk 가 생성, int는 성공 또는 실패 반환
     List<ItemDto> getItems();

@@ -5,16 +5,18 @@ import com.fruit.pms.mapper.ItemMapper;
 import com.fruit.pms.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/items")
 public class ItemController {
-    @Autowired
-    private ItemService itemService;
 
     @Autowired
     private ItemService itemService;
+
     @GetMapping("/create")
     public String create() {
         return "shop/create-item";
@@ -28,11 +30,23 @@ public class ItemController {
     }
 
     @GetMapping("/{id}")
-    public ItemDto getItem(@PathVariable("id") int id) {
-
-        return itemService.getItem(id);
+    public String getItem(@PathVariable("id") int id, Model model) {
+        try {
+            ItemDto itemDto = itemService.getItem(id);
+            model.addAttribute("item", itemDto);
+        } catch (IllegalStateException e){
+            model.addAttribute("message", e.getMessage());
+            return "common/error/404";
+        }
+        return "shop/detail";
     }
-    
+
+    @GetMapping
+    public String getItems(Model model) {
+        List<ItemDto> items = itemService.getItems();
+        model.addAttribute("items", items);
+        return "shop/list";
+    }
     // HTML 파일로 할 경우 
     // 생성 페이지 GET /items/create
     // 생성 POST /items
