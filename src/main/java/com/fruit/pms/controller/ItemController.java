@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/items")
 public class ItemController {
     @Autowired
-    private ItemMapper itemMapper;
+    private ItemService itemService;
 
     @Autowired
     private ItemService itemService;
@@ -24,12 +24,26 @@ public class ItemController {
     @ResponseBody
     public void createItem(@RequestBody ItemDto itemDto) {
         System.out.println(itemDto.getItem());
-        itemMapper.insertItem(itemDto);
+        itemService.createItem(itemDto);
     }
 
     @GetMapping("/{id}")
-    @ResponseBody
     public ItemDto getItem(@PathVariable("id") int id) {
+
         return itemService.getItem(id);
     }
+    
+    // HTML 파일로 할 경우 
+    // 생성 페이지 GET /items/create
+    // 생성 POST /items
+    // 상세보기 GET /items/{id}
+    // 수정 POST /items/{id}
+    // 삭제 Get /items/{id}
+    
+    // JSON 파일로 할 경우
+    // 생성 페이지 GET /items/create
+    // 생성 POST /items
+    // 상세보기 GET /items/{id}
+    // 수정 PUT /items/{id}
+    // 삭제 DELETE /items/{id}
 }
