@@ -1,27 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.fruit.pms.mapper.ItemMapper">
-
     <insert id="insertItem" parameterType="com.fruit.pms.dto.ItemDto"
-    useGeneratedKeys="true" keyProperty="id">
-    insert into items (name) values (#{item});
+            useGeneratedKeys="true" keyProperty="id">
+        insert into items (name)
+        values (#{item});
     </insert>
 
     <select id="getItemById" resultType="com.fruit.pms.dto.ItemDto">
-        SELECT id, name AS item FROM items WHERE id = #{id};
+        SELECT id, name AS item
+        FROM items
+        WHERE id = #{id};
     </select>
 
     <select id="getItems" resultType="com.fruit.pms.dto.ItemDto">
-        select id, name as item from items order by id limit 3;
+        SELECT id, name as item
+        FROM items
+        order by id limit 10;
     </select>
 
     <update id="updateItem" parameterType="com.fruit.pms.dto.ItemDto">
-        update items set name = "#{item}" where id = #{id};
+        update items
+        set name = #{item}
+        where id = #{id};
     </update>
 
-    <delete id="deleteItem" >
-        delete from items where id = #{id};
+    <delete id="deleteItem">
+        delete
+        from items
+        where id = #{id};
     </delete>
-
 </mapper>

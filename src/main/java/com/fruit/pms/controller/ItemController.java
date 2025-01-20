@@ -49,7 +49,7 @@ public class ItemController {
 
 
     // modify나 edit 를 사용한다.
-    @GetMapping("/itmes/{id}/modify")
+    @GetMapping("/{id}/modify")
     public String getItem2(@PathVariable("id") int id, Model model) {
         try {
             ItemDto itemDto = itemService.getItem(id);
@@ -59,6 +59,19 @@ public class ItemController {
             return "common/error/404";
         }
         return "shop/modify";
+    }
+
+    @PostMapping("/{id}/modify")
+    @ResponseBody
+    public void modifyItem(@RequestBody ItemDto itemDto) {
+        System.out.println(itemDto.getItem());
+        itemService.modifyItem(itemDto);
+    }
+
+    @GetMapping("/{id}/remove")
+    public String removeItem(@PathVariable("id") int id) {
+        itemService.removeItem(id);
+        return "redirect:/items";
     }
 
     // HTML 파일로 할 경우 ( thymeleaf )
