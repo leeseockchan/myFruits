@@ -1,6 +1,7 @@
 package com.fruit.pms.controller;
 
 import com.fruit.pms.dto.ItemDto;
+import com.fruit.pms.dto.PageDto;
 import com.fruit.pms.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,10 +44,10 @@ public class ItemController {
 
     @GetMapping
     public String getItems(@RequestParam(name = "page", defaultValue = "1") int page,
-                           @RequestParam(name = "limit", defaultValue = "10") int limit, Model model){
-        List<ItemDto> items = itemService.getItems(page, limit);
-        model.addAttribute("items", items);
-
+                           @RequestParam(name = "limit", defaultValue = "3") int limit,
+                           Model model){
+        PageDto pageDto = itemService.getItems(page, limit);
+        model.addAttribute("pageDto", pageDto);
         return "shop/list";
     }
 

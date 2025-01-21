@@ -14,6 +14,10 @@ public interface ItemMapper {
     void insertItem(ItemDto itemDto);
     Optional<ItemDto> getItemById(int id); // pk 가 생성, int는 성공 또는 실패 반환
     List<ItemDto> getItems(@Param("limit") int limit, @Param("offset") int offset);
+//    총 갯수
+    int countTotal();
+//    수정
     void updateItem(ItemDto itemDto); // 내용을 변경
+//    삭제
     void deleteItem(int id);
 }
