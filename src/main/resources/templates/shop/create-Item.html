@@ -13,6 +13,9 @@
     <form id="itemForm" th:action="@{/items}" method="post">
         <label for="item_id">아이템(과일): </label>
         <input type="text" id="item_id" name="item" required>
+        <span id="spaceError" class="error">공백은 사용 할 수 없습니다.</span>
+        <span id="SpecialCharError" class="error">특수 문자는 사용 할 수 없습니다.</span>
+        <span id="startWithNumberError" class="error">숫자로 시작 할 수 없습니다.</span>
         <button type="submit">아이템 등록</button>
     </form>
 </main>

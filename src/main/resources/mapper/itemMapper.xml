@@ -16,7 +16,7 @@
     <select id="getItems" resultType="com.fruit.pms.dto.ItemDto">
         SELECT id, name as item
         FROM items
-        order by id limit 10;
+        order by id limit #{limit} offset #{offset};
     </select>
 
     <update id="updateItem" parameterType="com.fruit.pms.dto.ItemDto">

@@ -24,3 +24,4 @@ document.getElementById('itemForm').addEventListener('submit', function(e){
         alert('오류가 발생했습니다.');
     });
 });
+

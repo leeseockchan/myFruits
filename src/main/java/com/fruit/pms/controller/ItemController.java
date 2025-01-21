@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @Controller
 @RequestMapping("/items")
 public class ItemController {
@@ -41,9 +42,11 @@ public class ItemController {
     }
 
     @GetMapping
-    public String getItems(Model model) {
-        List<ItemDto> items = itemService.getItems();
+    public String getItems(@RequestParam(name = "page", defaultValue = "1") int page,
+                           @RequestParam(name = "limit", defaultValue = "10") int limit, Model model){
+        List<ItemDto> items = itemService.getItems(page, limit);
         model.addAttribute("items", items);
+
         return "shop/list";
     }
 
