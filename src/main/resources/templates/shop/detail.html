@@ -12,6 +12,11 @@
     <ul>
         <li>id: <span th:text="${item.id}"></span></li>
         <li>name: <span th:text="${item.item}"></span></li>
+        <li>supply_Name: <span th:text="${supply.name}"></span></li>
+        <li>contact1: <span th:text="${supply.contact1}"></span></li>
+        <li>contact2: <span th:text="${supply.contact1}"></span></li>
+        <li>business_Number: <span th:text="${supply.businessNumber}"></span></li>
+
         <li><a th:href="@{/items/{id}/modify(id=${item.id})}">수정 하기</a></li>
         <li><a th:href="@{/items/{id}/remove(id=${item.id})}">삭제 하기</a></li>
     </ul>

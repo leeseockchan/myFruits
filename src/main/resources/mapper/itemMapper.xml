@@ -12,7 +12,7 @@
         FROM items
         WHERE id = #{id};
     </select>
-
+<!--    목록 보기   -->
     <select id="getItems" resultType="com.fruit.pms.dto.ItemDto">
         SELECT id, name as item
         FROM items

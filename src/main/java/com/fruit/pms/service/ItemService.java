@@ -29,7 +29,7 @@ public class ItemService {
         );
     }
 
-    public PageDto getItems(int page, int limit) {
+    public PageDto<ItemDto> getItems(int page, int limit) {
         int offset = (page - 1) * limit; // 목록
 //      갯수가 size 인 item 목록
         List<ItemDto> items = itemMapper.getItems(limit, offset);
@@ -38,9 +38,9 @@ public class ItemService {
         // 총 페이지
         // Math.ceil - 올림
         // 13 /5 = 2.xxxx => 3 => (int) 3
-        int totalPages = (int) Math.ceil((double)totalElements / limit);
+//        int totalPages = (int) Math.ceil((double)totalElements / limit);
 
-        PageDto pageDto = new PageDto(page, limit, totalPages, totalElements, items);
+        PageDto<ItemDto> pageDto = new PageDto(page, limit, totalElements, items);
 
         return pageDto;
     }

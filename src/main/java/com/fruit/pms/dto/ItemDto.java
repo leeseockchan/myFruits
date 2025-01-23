@@ -6,6 +6,7 @@ public class ItemDto {
     private String item;
 
     // Getter와 Setter 설정
+    // lombok 일부러 사용 하지 않았음!!
     public Integer getId() {
         return id;
     }

@@ -15,7 +15,7 @@ function startWithNumber(str) {
     return /^[0-9]/.test(str)
 }
 
-document.getElementById('item_id').addEventListener('input', function(e) {
+document.getElementById('name_id').addEventListener('input', function(e) {
     const value = e.target.value;
     const spaceError = document.getElementById('spaceError');
     const specialCharError = document.getElementById('specialCharError');
@@ -27,21 +27,22 @@ document.getElementById('item_id').addEventListener('input', function(e) {
     specialCharError.style.display = hasSpecialChar(value) ? 'block' : 'none';
     startWithNumberError.style.display = startWithNumber(value) ? 'block' : 'none';
 
-    // 입력시 서버 오류 메시지는 감추기
-    document.getElementById('itemError').style.display = 'none';
 })
 
-document.getElementById('itemForm').addEventListener('submit', function(e) {
+document.getElementById('supplyForm').addEventListener('submit', function(e) {
 
     e.preventDefault();
 
-    const item = {
-        item: document.getElementById('item_id').value,
+    const supply = {
+        name: document.getElementById('name_id').value,
+        contact1: document.getElementById('contact1_id').value,
+        contact2: document.getElementById('contact2_id').value,
+        businessNumber: document.getElementById('business_number_id').value,
     }
 
-    if (! hasWhiteSpace(item.item) &&
-        ! hasSpecialChar(item.item) &&
-        ! startWithNumber(item.item)) {
+    if (! hasWhiteSpace(supply.name) &&
+        ! hasSpecialChar(supply.name) &&
+        ! startWithNumber(supply.name)) {
         alert('서버로 전송한다.');
     } else {
         alert('입력값을 다시 확인해주세요.');
@@ -50,25 +51,16 @@ document.getElementById('itemForm').addEventListener('submit', function(e) {
     // fetch(요청주소, 요청내용객체)
     // 성공
     // 실패
-    fetch("/items", {
+    fetch("/supply", {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(item)
+        body: JSON.stringify(supply)
     }).then(response => {
         if (response.ok) {
-            alert('아이템이 성공적으로 생성되었습니다.');
-            document.getElementById('itemForm').reset();
+            alert('구입처가 성공적으로 생성되었습니다.');
+            document.getElementById('supplyForm').reset();
         } else {
-            alert('아이템 생성에 실패했습니다.');
-            response.json().then(errorMap => {
-                Object.entries(errorMap).forEach(([field, messages]) => {
-                    const errorEl = document.getElementById(`${field}Error`);
-                    if (errorEl) {
-                        errorEl.style.display = 'block';
-                        errorEl.innerText = messages.join('\n');
-                    }
-                });
-            });
+            alert('구입처 생성에 실패했습니다.');
         }
     }).catch(error => {
         console.error('Error:', error);
