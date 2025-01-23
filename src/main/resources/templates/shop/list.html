@@ -18,6 +18,8 @@
         <tr th:each="item: ${pageDto.content}">
             <td th:text="${item.id}"></td>
             <td><a th:href="@{/items/{id}(id=${item.id})}" th:text="${item.item}"></a></td>
+         <td th:text="${supply.name}"></td>
+            <td><a th:href="@{/items/{id}(id=${item.id})}" th:text="${item.item}"></a></td>
         </tr>
         <!-- 반복구간 끝 -->
     </table>
