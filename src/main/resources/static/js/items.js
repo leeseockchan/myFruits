@@ -3,7 +3,14 @@ document.getElementById('itemForm').addEventListener('submit', function(e){
 
         const item = {
             item: document.getElementById('item_id').value
-        }
+        };
+//        이미지 생성 메소드
+ function updateImage() {
+        let itemName = document.getElementById("item_id").value;
+        document.getElementById("itemImage").src = "/images/" + itemName + ".jpg";
+    }
+    // 이미지 업데이트 호출
+    updateImage();
 
     // fetch( 요청 주소, 요청내용 객체)
     // 성공

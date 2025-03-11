@@ -11,10 +11,15 @@
 <main layout:fragment="content">
     <h1>새 아이템</h1>
     <form id="itemForm" th:action="@{/items}" method="post">
+        <!-- 이미지 표시 -->
+        <img th:src="@{/images/apple.jpg}" alt="아이템 이미지" width="150">
+        <!-- 입력 필드 -->
         <label for="item_id">아이템(과일): </label>
         <input type="text" id="item_id" name="item" required>
+        <!-- 제출 버튼 -->
         <button type="submit">아이템 등록</button>
     </form>
+
 </main>
 <th:block layout:fragment="js">
     <script th:src="@{/js/items.js}"></script>
