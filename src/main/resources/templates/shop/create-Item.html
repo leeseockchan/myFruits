@@ -12,7 +12,7 @@
     <form id="itemForm" th:action="@{/items}" method="post" enctype="multipart/form-data">
 
 <!--        이미지 미리보기 -->
-        <img id="preview" th:src="" alt="이미지 미리보기" style="max-width: 500px;"/>
+        <img id="preview" th:src="@{${imageUrl}}" alt="이미지 미리보기" style="max-width: 500px;"/>
 <!--        이미지 업로드-->
         <input type="file" id="item_image" name="itemImage" accept="image/*">
 
