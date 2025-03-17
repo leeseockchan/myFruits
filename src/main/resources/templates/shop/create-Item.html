@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http:/www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/base}">
@@ -10,12 +9,16 @@
 <body>
 <main layout:fragment="content">
     <h1>새 아이템</h1>
-    <form id="itemForm" th:action="@{/items}" method="post">
-        <!-- 이미지 표시 -->
-        <img th:src="@{/images/apple.jpg}" alt="아이템 이미지" width="150">
+    <form id="itemForm" th:action="@{/items}" method="post" enctype="multipart/form-data">
+
+<!--        이미지 미리보기 -->
+        <img id="preview" th:src="" alt="이미지 미리보기" style="max-width: 500px;"/>
+<!--        이미지 업로드-->
+        <input type="file" id="item_image" name="itemImage" accept="image/*">
+
         <!-- 입력 필드 -->
-        <label for="item_id">아이템: </label>
-        <input type="text" id="item_id" name="item" required>
+        <label for="item_name">아이템: </label>
+        <input type="text" id="item_name" name="item" required>
         <!-- 제출 버튼 -->
         <button type="submit">아이템 등록</button>
     </form>

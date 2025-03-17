@@ -2,11 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fruit.pms.mapper.ItemMapper">
 
+<!--        생성 -->
     <insert id="insertItem" parameterType="com.fruit.pms.dto.ItemDto" useGeneratedKeys="true" keyProperty="id">
         insert into items (name,image_url)
         values (#{item},#{imageUrl});
     </insert>
-<!--    상세보기-->
+<!--    상세보기 -->
     <select id="getItemById" resultType="com.fruit.pms.dto.ItemDto">
         SELECT id,
         name As item,
@@ -20,14 +21,14 @@
         FROM items
         order by id;
     </select>
-
+<!--    수정-->
     <update id="updateItem" parameterType="com.fruit.pms.dto.ItemDto">
         update items
         set name = #{item},
         image_url = #{imageUrl}
         where id = #{id};
     </update>
-
+<!--     삭제-->
     <delete id="deleteItem">
         delete
         from items

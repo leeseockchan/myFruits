@@ -27,11 +27,28 @@ public class ItemController {
         return "shop/create-item";
     }
 
-    @PostMapping
-    @ResponseBody
-    public void createItem(@RequestBody ItemDto itemDto) {
-        System.out.println(itemDto.getItem());
-        itemService.createItem(itemDto);
+    @PostMapping("/create")
+    public String createItem(@ModelAttribute ItemDto itemDto,
+                           @RequestParam("itemImage") MultipartFile file) {
+        try {
+            if (!file.isEmpty()) {
+                // 새 이미지 저장
+                String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+                Path imagePath = Paths.get("E:/images/", filename);
+                Files.createDirectories(imagePath.getParent()); // 폴더 없으면 생성
+                file.transferTo(imagePath.toFile());
+                // DB에 저장할 이미지 경로 업데이트
+                itemDto.setImageUrl("/images/" + filename); // DB에 저장될 경로
+            }
+
+            // DB에 상품 정보 저장
+            itemService.createItem(itemDto);
+            return "redirect:/items"; // 생성 후 아이템 목록 페이지로 리디렉션
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "파일 업로드 실패";
+        }
     }
 
     @GetMapping("/{id}")
@@ -70,40 +87,39 @@ public class ItemController {
         return "shop/modify";
     }
 
-//
-@PostMapping("/{id}/modify")
-@ResponseBody
-public String updateItem(@ModelAttribute ItemDto itemDto,
-                         @RequestParam("itemImage") MultipartFile file) {
-    try {
-        // 기존 이미지 삭제
-        if (itemDto.getImageUrl() != null && !itemDto.getImageUrl().isEmpty()) {
-            // DB에서 저장된 이미지 경로를 잘라서 실제 파일 경로로 변환
-            String imagePath = itemDto.getImageUrl().replace("/images/", "");
-            Path oldImagePath = Paths.get("E:/images", imagePath);
-            Files.deleteIfExists(oldImagePath);  // 기존 파일 삭제
+    //
+    @PostMapping("/{id}/modify")
+    @ResponseBody
+    public String updateItem(@ModelAttribute ItemDto itemDto,
+                             @RequestParam("itemImage") MultipartFile file) {
+        try {
+            // 기존 이미지 삭제
+            if (itemDto.getImageUrl() != null && !itemDto.getImageUrl().isEmpty()) {
+                // DB에서 저장된 이미지 경로를 잘라서 실제 파일 경로로 변환
+                String imagePath = itemDto.getImageUrl().replace("/images/", "");
+                Path oldImagePath = Paths.get("E:/images", imagePath);
+                Files.deleteIfExists(oldImagePath);  // 기존 파일 삭제
+            }
+
+            // 새 이미지 저장
+            if (!file.isEmpty()) {
+                String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+                Path imagePath = Paths.get("E:/images", filename);
+                Files.createDirectories(imagePath.getParent()); // 폴더 없으면 생성
+                file.transferTo(imagePath.toFile());
+
+                // DB에 저장할 이미지 경로 업데이트 (상대 경로)
+                itemDto.setImageUrl("/images/" + filename);
+            }
+
+            // DB 업데이트
+            itemService.modifyItem(itemDto);  // 이미지 경로와 수정된 아이템을 DB에 반영
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "파일 업로드 실패";
         }
-
-        // 새 이미지 저장
-        if (!file.isEmpty()) {
-            String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-            Path imagePath = Paths.get("E:/images", filename);
-            Files.createDirectories(imagePath.getParent()); // 폴더 없으면 생성
-            file.transferTo(imagePath.toFile());
-
-            // DB에 저장할 이미지 경로 업데이트 (상대 경로)
-            itemDto.setImageUrl("/images/" + filename);
-        }
-
-        // DB 업데이트
-        itemService.modifyItem(itemDto);  // 이미지 경로와 수정된 아이템을 DB에 반영
-    } catch (IOException e) {
-        e.printStackTrace();
-        return "파일 업로드 실패";
+        return "redirect:/items/" + itemDto.getId();
     }
-    return "redirect:/items/" + itemDto.getId();
-}
-
 
 
     @GetMapping("/{id}/remove")
@@ -119,7 +135,7 @@ public String updateItem(@ModelAttribute ItemDto itemDto,
     // 수정 POST /items/{id}
     // 수정페이지 GET/items/{id}/modify
     // 삭제 Get /items/{id}
-    
+
     // JSON 파일로 할 경우
     // 생성 페이지 GET /items/create
     // 생성 POST /items
