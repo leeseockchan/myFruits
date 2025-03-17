@@ -3,15 +3,23 @@
       xmlns:layout="http:/www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/base}">
 <head>
-    <title>상세보기</title>
+    <title>수정하기</title>
 </head>
 <body>
 <main layout:fragment="content">
     <h1>수정하기</h1>
-    <form id="itemForm">
+    <form id="itemForm" th:action="@{/items/{id}/modify}" method="post" enctype="multipart/form-data">
         <input type="hidden" id="item_id" name="id" th:value="${item.id}">
+
         <label for="item_name">아이템(과일): </label>
         <input type="text" id="item_name" name="item" th:value="${item.item}">
+
+        <label for="item_image">아이템 이미지: </label>
+        <input type="file" id="item_image" name="itemImage" accept="image/*">
+
+        <!-- 이미지 미리보기 -->
+        <img id="preview" th:src="@{${item.imageUrl}}" alt="이미지 미리보기" style="max-width: 500px;"/>
+
         <button type="submit">아이템 수정</button>
     </form>
 </main>

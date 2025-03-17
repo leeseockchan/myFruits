@@ -27,12 +27,9 @@ public class ItemService {
                 () -> new IllegalStateException("파일을 찾을 수 없습니다.")
         );
     }
-
     public List<ItemDto> getItems() {
         return itemMapper.getItems();
     }
-
-
     public void modifyItem(ItemDto itemDto) {
         itemMapper.updateItem(itemDto);
     }

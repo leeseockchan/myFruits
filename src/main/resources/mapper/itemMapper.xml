@@ -1,27 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fruit.pms.mapper.ItemMapper">
-    <insert id="insertItem" parameterType="com.fruit.pms.dto.ItemDto"
-            useGeneratedKeys="true" keyProperty="id">
-        insert into items (name)
-        values (#{item});
-    </insert>
 
+    <insert id="insertItem" parameterType="com.fruit.pms.dto.ItemDto" useGeneratedKeys="true" keyProperty="id">
+        insert into items (name,image_url)
+        values (#{item},#{imageUrl});
+    </insert>
+<!--    상세보기-->
     <select id="getItemById" resultType="com.fruit.pms.dto.ItemDto">
-        SELECT id, name AS item
+        SELECT id,
+        name As item,
+        image_url AS imageUrl
         FROM items
         WHERE id = #{id};
     </select>
-
+<!--    목록 -->
     <select id="getItems" resultType="com.fruit.pms.dto.ItemDto">
         SELECT id, name as item
         FROM items
-        order by id limit 10;
+        order by id;
     </select>
 
     <update id="updateItem" parameterType="com.fruit.pms.dto.ItemDto">
         update items
-        set name = #{item}
+        set name = #{item},
+        image_url = #{imageUrl}
         where id = #{id};
     </update>
 
