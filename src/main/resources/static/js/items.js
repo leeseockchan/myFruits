@@ -13,7 +13,8 @@ document.getElementById('itemForm').addEventListener('submit', function(e){
     }).then(response => {
         if (response.ok) {
             alert('아이템이 생성되었습니다.');
-            document.getElementById('itemForm').reset();  // 폼 리셋
+            document.getElementById('itemForm').reset();// 폼 리셋
+            window.location.href = "/items";// 목록 페이지 이동
         } else {
             alert('아이템 생성에 실패했습니다.');
         }

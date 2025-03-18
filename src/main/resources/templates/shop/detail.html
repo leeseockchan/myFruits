@@ -14,7 +14,7 @@
         <li>name: <span th:text="${item.item}"></span></li>
         <li>상품 이미지:
             <img th:if="${item.imageUrl != null and item.imageUrl != ''}" th:src="@{${item.imageUrl}}" alt="상품 이미지"/>
-            <img th:if="${item.imageUrl == null or item.imageUrl == ''}" th:src="@{E:/images/default-image.jpg}" alt="기본 상품 이미지"/>
+            <img th:if="${item.imageUrl == null or item.imageUrl == ''}" th:src="@{/images/default-image.jpg}" alt="기본 상품 이미지"/>
         </li>
         <li><a th:href="@{/items/{id}/modify(id=${item.id})}">수정 하기</a></li>
         <li><a th:href="@{/items/{id}/remove(id=${item.id})}">삭제 하기</a></li>

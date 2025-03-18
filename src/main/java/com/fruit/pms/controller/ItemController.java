@@ -43,12 +43,12 @@ public class ItemController {
 
             // DB에 상품 정보 저장
             itemService.createItem(itemDto);
-            return "redirect:/items"; // 생성 후 아이템 목록 페이지로 리디렉션
 
         } catch (IOException e) {
             e.printStackTrace();
             return "파일 업로드 실패";
         }
+            return "redirect:/items"; // 생성 후 아이템 목록 페이지로 리디렉션
     }
 
     @GetMapping("/{id}")
@@ -93,11 +93,15 @@ public class ItemController {
     public String updateItem(@ModelAttribute ItemDto itemDto,
                              @RequestParam("itemImage") MultipartFile file) {
         try {
-            // 기존 이미지 삭제
-            if (itemDto.getImageUrl() != null && !itemDto.getImageUrl().isEmpty()) {
-                // DB에서 저장된 이미지 경로를 잘라서 실제 파일 경로로 변환
-                String imagePath = itemDto.getImageUrl().replace("/images/", "");
+            // 기존 이미지 경로 가져오기 (DB에서 직접 조회)
+            ItemDto existingItem = itemService.getItem(itemDto.getId());
+            String oldImageUrl = existingItem.getImageUrl();  // 기존 이미지 URL
+
+            // 기존 이미지 삭제 (새 이미지를 등록할 때만 삭제)
+            if (oldImageUrl != null && !oldImageUrl.isEmpty() && !file.isEmpty()) {
+                String imagePath = oldImageUrl.replace("/images/", "");  // 상대 경로 변환
                 Path oldImagePath = Paths.get("E:/images", imagePath);
+                System.out.println("삭제할 이미지 경로: " + oldImagePath);  // 디버깅 로그
                 Files.deleteIfExists(oldImagePath);  // 기존 파일 삭제
             }
 
@@ -108,7 +112,7 @@ public class ItemController {
                 Files.createDirectories(imagePath.getParent()); // 폴더 없으면 생성
                 file.transferTo(imagePath.toFile());
 
-                // DB에 저장할 이미지 경로 업데이트 (상대 경로)
+                // DB에 저장할 이미지 경로 업데이트
                 itemDto.setImageUrl("/images/" + filename);
             }
 
@@ -124,6 +128,21 @@ public class ItemController {
 
     @GetMapping("/{id}/remove")
     public String removeItem(@PathVariable("id") int id) {
+//    이미지 가져오기
+        ItemDto itemDto = itemService.getItem(id);
+//      이미지 삭제
+        if (itemDto.getImageUrl() != null && !itemDto.getImageUrl().isEmpty()) {
+            String imagePath = itemDto.getImageUrl().replace("/images/", "");  // 상대 경로 변환
+            Path filePath = Paths.get("E:/images", imagePath);
+            try {
+                Files.deleteIfExists(filePath);  // 기존 이미지 삭제
+                System.out.println("삭제된 이미지 경로: " + filePath);  // 디버깅 로그
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("이미지 삭제 실패: " + filePath);
+            }
+        }
+//      상품 삭제
         itemService.removeItem(id);
         return "redirect:/items";
     }
